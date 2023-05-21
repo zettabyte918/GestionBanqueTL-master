@@ -1,0 +1,89 @@
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+<title>list of employees</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-600 container mx-auto">
+
+	<h1 th:text="${client.nom}"></h1>
+
+
+
+	<br></br>
+
+	<div class="   overflow-x-auto shadow-md sm:rounded-lg">
+
+		</button>
+
+		<table
+			class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+
+
+
+
+
+			<thead
+				class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+				<tr>
+					<th scope="col" class="px-6 py-3">Code compte</th>
+					<th scope="col" class="px-6 py-3">type compte</th>
+
+					<th scope="col" class="px-6 py-3">date creation</th>
+					<th scope="col" class="px-6 py-3">Solde</th>
+					<th scope="col" class="px-6 py-3">Decouvert</th>
+					<th scope="col" class="px-6 py-3">taux</th>
+
+					<th scope="col" class="px-6 py-3">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="comptes:${comptes}"
+					class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+					<th scope="row" th:text="${comptes.codeCompte}"
+						class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+					</th>
+
+					<td class="px-6 py-4"><span 
+						th:if="${comptes instanceof T(com.example.demo.entities.CompteCourant)}">Compte
+							Courant</span> <span
+						th:if="${comptes instanceof T(com.example.demo.entities.CompteEpargne)}">Compte
+							Epargne</span></td>
+					<td th:text="${comptes.dateCreation}" class="px-6 py-4"></td>
+					<td th:text="${comptes.solde}" class="px-6 py-	4"></td>
+
+					<td th:text="${comptes.dateCreation}" class="px-6 py-4"></td>
+					<td th:text="${comptes.solde}" class="px-6 py-4"></td>
+
+
+					<td class="px-6 py-4">
+						<!--<a
+						class="font-medium text-green-600 dark:text-green-500 hover:underline">Details</a>
+					--> <a
+						class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+
+						<a
+						class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+					</td>
+
+					<!--  <a
+							th:href="@{/showupdate(employeeid=${employee.id})}"
+							class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+							<a th:href="@{/delete(employeeid=${employee.id})}"
+						>Delete</a>
+-->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+
+
+
+
+
+</body>
+</html>
