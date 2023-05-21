@@ -66,8 +66,12 @@ public class ClientController {
 
 	@GetMapping("/delete/{code}")
 	@Transactional
-	public String deleteClient(@PathVariable("code") Long code) {
+	public String deleteClient(@PathVariable("code") Long code, RedirectAttributes redirectAttributes) {
+		Client client = clientrepo.findById(code).orElse(null);
 		clientrepo.deleteByCode(code);
+		redirectAttributes.addFlashAttribute("deleted", true);
+		redirectAttributes.addFlashAttribute("name", client.getNom());
+
 		return "redirect:/client/showClient";
 	}
 

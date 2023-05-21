@@ -69,6 +69,51 @@
 >
   <section layout:fragment="content">
     <form th:action="@{/client/saveClient}" th:object="${client}" method="post">
+      <!-- credit chip -->
+      <div class="space-y-16">
+        <div
+          class="w-96 h-56 ml-8 bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-110"
+        >
+          <img
+            class="relative object-cover w-full h-full rounded-xl"
+            src="https://i.imgur.com/kGkSg1v.png"
+          />
+
+          <div class="w-full px-8 absolute top-8">
+            <div class="flex justify-between">
+              <div class="">
+                <p class="font-light">Name</p>
+                <p th:text="*{nom}" class="font-medium tracking-widest">
+                  Karthik P
+                </p>
+              </div>
+              <img class="w-14 h-14" src="https://i.imgur.com/bbPHJVe.png" />
+            </div>
+            <div class="pt-1">
+              <p class="font-light">Card Number</p>
+              <p class="font-medium tracking-more-wider">**** **** **** 7632</p>
+            </div>
+            <div class="pt-6 pr-6">
+              <div class="flex justify-between">
+                <div class="">
+                  <p class="font-light text-xs">Valid</p>
+                  <p class="font-medium tracking-wider text-sm">11/15</p>
+                </div>
+                <div class="">
+                  <p class="font-light text-xs text-xs">Expiry</p>
+                  <p class="font-medium tracking-wider text-sm">03/25</p>
+                </div>
+
+                <div class="">
+                  <p class="font-light text-xs">CVV</p>
+                  <p class="font-bold tracking-more-wider text-sm">***</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- credit chip -->
       <input type="hidden" th:field="*{code}" id="name" />
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="sm:flex mb-4 justify-end sm:items-center">
@@ -97,52 +142,51 @@
               </div>
             </div>
             <div class="mt-5 md:mt-0 md:col-span-2">
-              <form action="#" method="POST">
-                <div class="shadow sm:rounded-md sm:overflow-hidden">
-                  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-                    <div class="grid grid-cols-3 gap-6">
-                      <div class="col-span-6">
-                        <label
-                          for="name"
-                          class="block text-sm font-medium text-gray-700"
-                          >Name</label
-                        >
-                        <input
-                          type="text"
-                          th:field="*{nom}"
-                          id="name"
-                          placeholder="Name"
-                          class="mt-1 text-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          required
-                        />
-                      </div>
-                      <div class="col-span-6">
-                        <label
-                          for="email"
-                          class="block text-sm font-medium text-gray-700"
-                          >Email adresse</label
-                        >
-                        <input
-                          type="email"
-                          th:field="*{email}"
-                          id="email"
-                          placeholder="Email adresse"
-                          required
-                          class="mt-1 text-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                        />
-                      </div>
+              <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                  <div class="grid grid-cols-3 gap-6">
+                    <div class="col-span-6">
+                      <label
+                        for="name"
+                        class="block text-sm font-medium text-gray-700"
+                        >Name</label
+                      >
+
+                      <input
+                        type="text"
+                        th:field="*{nom}"
+                        id="name"
+                        placeholder="Name"
+                        class="mt-1 text-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        required
+                      />
+                    </div>
+                    <div class="col-span-6">
+                      <label
+                        for="email"
+                        class="block text-sm font-medium text-gray-700"
+                        >Email adresse</label
+                      >
+                      <input
+                        type="email"
+                        th:field="*{email}"
+                        id="email"
+                        placeholder="Email adresse"
+                        required
+                        class="mt-1 text-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      />
                     </div>
                   </div>
-                  <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button
-                      type="submit"
-                      class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                      Save
-                    </button>
-                  </div>
                 </div>
-              </form>
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                  <button
+                    type="submit"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
