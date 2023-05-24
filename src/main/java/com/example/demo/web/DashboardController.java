@@ -16,6 +16,12 @@ public class DashboardController {
         return "dashboard/page1.html";
     }
 
+    @GetMapping("/chart")
+    public String getChart(Model model) {
+        // Add any necessary data to the model
+        return "chart/chart.html";
+    }
+
     @GetMapping("/page2")
     public String getPage2(Model model) {
         // Add any necessary data to the model

@@ -12,18 +12,18 @@ import javax.persistence.OneToMany;
 
 @Entity
 
-public class Client implements Serializable{
-	
+public class Client implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private Long code;
 	private String nom;
 	private String email;
-	@OneToMany(mappedBy="client",fetch=FetchType.LAZY,cascade = CascadeType.ALL)
-	private Collection<Compte> comptes;//un client peut avoir plusieurs comptes
+	@OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+	private Collection<Compte> comptes;// un client peut avoir plusieurs comptes
 
-	
 	public Client() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -66,7 +66,5 @@ public class Client implements Serializable{
 	public void setComptes(Collection<Compte> comptes) {
 		this.comptes = comptes;
 	}
-	
-	
-	
+
 }

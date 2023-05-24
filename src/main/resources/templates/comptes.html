@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="dashboard/layout.html"
+>
+  <body>
+    <section layout:fragment="content">
+      <div class="px-6 pb-6">
+        <div>
+          <dl class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <div
+              class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6"
+            >
+              <dt class="text-sm font-medium text-gray-500 truncate">
+                Account code
+              </dt>
+              <dd
+                th:text="${compte.codeCompte}"
+                class="mt-1 text-3xl font-semibold text-gray-900"
+              ></dd>
+            </div>
+
+            <div
+              class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6"
+            >
+              <dt class="text-sm font-medium text-gray-500 truncate">
+                Client name
+              </dt>
+              <dd
+                th:text="${compte.client.nom}"
+                class="mt-1 text-3xl font-semibold text-gray-900"
+              ></dd>
+            </div>
+
+            <div
+              class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6"
+            >
+              <dt class="text-sm font-medium text-gray-500 truncate">
+                Balance
+              </dt>
+              <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                <span th:text="${compte.solde}"></span> TND
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="px-6 pb-6">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+          <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+              <h3 class="text-lg font-medium leading-6 text-gray-900">
+                Consultation d'un compte
+              </h3>
+              <p class="mt-1 text-sm text-gray-600">
+                You can search for a specific account and get his transaction
+              </p>
+            </div>
+          </div>
+          <div class="mt-5 md:mt-0 md:col-span-2">
+            <form th:action="@{/account}" method="get">
+              <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                  <div class="grid grid-cols-3 gap-6">
+                    <div class="col-span-3 sm:col-span-2">
+                      <label
+                        for="company-website"
+                        class="block text-sm font-medium text-gray-700"
+                      >
+                        Account id
+                      </label>
+                      <div class="mt-1 flex rounded-md shadow-sm">
+                        <span
+                          class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+                        >
+                          code
+                        </span>
+                        <input
+                          type="text"
+                          name="codeCompte"
+                          th:value="${codeCompte}"
+                          class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                          placeholder="Account code"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                  <button
+                    type="submit"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="px-6">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+          <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+              <h3 class="text-lg font-medium leading-6 text-gray-900">
+                Operations sur le compte
+              </h3>
+              <p class="mt-1 text-sm text-gray-600">
+                You can add new operation on this account
+              </p>
+            </div>
+          </div>
+          <div
+            sec:authorize="hasRole('ROLE_ADMIN')"
+            class="mt-5 md:mt-0 md:col-span-2"
+          >
+            <form th:action="@{/saveOperation}" method="post">
+              <input type="hidden" name="codeCompte" th:value="${codeCompte}" />
+              <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                  <div class="grid grid-cols-3 gap-6">
+                    <div class="col-span-3 sm:col-span-2">
+                      <fieldset>
+                        <div class="bg-white rounded-md -space-y-px">
+                          <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
+                          <label
+                            class="rounded-tl-md rounded-tr-md relative border p-4 flex cursor-pointer focus:outline-none"
+                          >
+                            <input
+                              type="radio"
+                              name="typeOperation"
+                              value="VERS"
+                              checked="checked"
+                              onchange="document.getElementById('forVirement').style.display='none'"
+                              class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                            />
+                            <div class="ml-3 flex flex-col">
+                              <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
+                              <span
+                                id="privacy-setting-0-label"
+                                class="block text-sm font-medium"
+                              >
+                                Payment
+                              </span>
+                            </div>
+                          </label>
+
+                          <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
+                          <label
+                            class="relative border p-4 flex cursor-pointer focus:outline-none"
+                          >
+                            <input
+                              type="radio"
+                              name="typeOperation"
+                              value="RETR"
+                              onchange="document.getElementById('forVirement').style.display='none'"
+                              class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                            />
+                            <div class="ml-3 flex flex-col">
+                              <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
+                              <span
+                                id="privacy-setting-1-label"
+                                class="block text-sm font-medium"
+                              >
+                                Withrawal
+                              </span>
+                            </div>
+                          </label>
+
+                          <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
+                          <label
+                            class="rounded-bl-md rounded-br-md relative border p-4 flex cursor-pointer focus:outline-none"
+                          >
+                            <input
+                              type="radio"
+                              name="typeOperation"
+                              value="VIR"
+                              onchange="document.getElementById('forVirement').style.display='block'"
+                              class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                            />
+                            <div class="ml-3 flex flex-col">
+                              <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
+                              <span
+                                id="privacy-setting-2-label"
+                                class="block text-sm font-medium"
+                              >
+                                Transfer
+                              </span>
+                            </div>
+                          </label>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div
+                      id="forVirement"
+                      class="hidden col-span-3 sm:col-span-2"
+                    >
+                      <label
+                        for="company-website"
+                        class="block text-sm font-medium text-gray-700"
+                      >
+                        Account id
+                      </label>
+                      <div class="mt-1 flex rounded-md shadow-sm">
+                        <span
+                          class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+                        >
+                          code
+                        </span>
+                        <input
+                          type="text"
+                          name="codeCompte2"
+                          class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                          placeholder="Account code"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-span-3 sm:col-span-2">
+                      <label
+                        for="company-website"
+                        class="block text-sm font-medium text-gray-700"
+                      >
+                        Amount
+                      </label>
+                      <div class="mt-1 flex rounded-md shadow-sm">
+                        <span
+                          class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+                        >
+                          TND
+                        </span>
+                        <input
+                          type="text"
+                          name="montant"
+                          class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                          placeholder="Account code"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                  <button
+                    type="submit"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden sm:block" aria-hidden="true">
+        <div class="py-5">
+          <div class="border-t border-gray-200"></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="px-4 sm:px-6 lg:px-8">
+          <div class="mt-8 flex flex-col">
+            <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div
+                class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
+              >
+                <div
+                  class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
+                >
+                  <table class="min-w-full divide-y divide-gray-300">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                        >
+                          Transaction ID
+                        </th>
+                        <th
+                          scope="col"
+                          class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        >
+                          Type
+                        </th>
+                        <th
+                          scope="col"
+                          class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        >
+                          Date
+                        </th>
+                        <th
+                          scope="col"
+                          class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        >
+                          Montant
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                      <tr th:each="o:${listOperations}">
+                        <td
+                          th:text="${o.numero}"
+                          class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6"
+                        ></td>
+                        <td
+                          class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900"
+                        >
+                          <span
+                            th:text="${o.class.simpleName}"
+                            th:class="${o.class.simpleName eq 'Versement' ? 'bg-green-600' : o.class.simpleName eq 'Retrait' ? 'bg-red-600' : ''} + ' text-gray-50 px-2 py-0.5 rounded-md'"
+                          ></span>
+                        </td>
+                        <td
+                          th:text="${o.dateOperation}"
+                          class="whitespace-nowrap px-2 py-2 text-sm text-gray-900"
+                        ></td>
+                        <td
+                          class="whitespace-nowrap px-2 py-2 text-sm text-gray-50"
+                        >
+                          <span class="bg-black px-2 py-0.5 rounded-md">
+                            <span th:text="${o.montant}"></span> TND
+                          </span>
+                        </td>
+                      </tr>
+
+                      <!-- More transactions... -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

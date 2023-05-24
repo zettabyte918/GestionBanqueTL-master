@@ -1,5 +1,6 @@
 package com.example.demo.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.ClientRepository;
@@ -40,6 +42,19 @@ public class ClientController {
 		List<Client> clients = clientrepo.findAll();
 		model.addAttribute("clients", clients);
 		return "client/list_clients";
+	}
+
+	@GetMapping({ "/showClientByCode" })
+	public String showClientCode(@RequestParam(name = "code", defaultValue = "0") Long code, Model model) {
+		Client client = clientrepo.findByCode(code);
+		List<Client> clients = ArrayList();
+		clients.add(client);
+		model.addAttribute("clients", clients);
+		return "client/list_clients";
+	}
+
+	private List<Client> ArrayList() {
+		return null;
 	}
 
 	@GetMapping("/edit/{id}")

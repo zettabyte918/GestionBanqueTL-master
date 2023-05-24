@@ -25,58 +25,76 @@ public class BanqueController {
 	private IBanqueMetier banqueMetier;
 	@Autowired
 	private CompteRepository compteRepo;
-	@Autowired 
+	@Autowired
 	private ClientRepository clientrepo;
-    @Autowired
+	@Autowired
 	private OperationRepository operationrepo;
-	
-	@RequestMapping(value="/operations")	
 
-	public String index(Model model) {
-        model.addAttribute("listOperations", operationrepo.findAll());
-		
-	    return "operations";
-	}
+	// @RequestMapping(value = "comptes/comptedetails/{id}", method =
+	// RequestMethod.GET)
+	// public String consulter(Model model, @PathVariable("id") Long codeCompte,
+	// @RequestParam(name = "page", defaultValue = "0") int page,
+	// @RequestParam(name = "size", defaultValue = "4") int size) {
+	// try {
+	// model.addAttribute("codeCompte", codeCompte);
+	// model.addAttribute("compte", (compteRepo.findById(codeCompte)));
+	// System.out.println(codeCompte);
+	// Compte cp = banqueMetier.consulterCompte(codeCompte).get();
 
-	
-	@RequestMapping(value="comptes/comptedetails/{id}",method = RequestMethod.GET)
-	public String consulter(Model model, @PathVariable("id") Long codeCompte, 
-			@RequestParam(name = "page",defaultValue = "0") int page ,
-            @RequestParam(name = "size",defaultValue = "4") int size){
-		try{
-			model.addAttribute("codeCompte",codeCompte);
-			model.addAttribute("compte",( compteRepo.findById(codeCompte)) );
-			System.out.println(codeCompte);
+	// Page<Operation> pageOperations = banqueMetier.listOperation(codeCompte, page,
+	// size);
+	// model.addAttribute("listOperations", pageOperations.getContent());
+	// System.out.println((pageOperations.getContent()));
+	// int[] pages = new int[pageOperations.getTotalPages()];// nombre de pages
+	// model.addAttribute("pages", pages);
+	// model.addAttribute("compte", cp);
+	// System.out.println(cp.getSolde());
+	// System.out.println(cp.getDateCreation());
+	// } catch (Exception e) {
+	// model.addAttribute("exception", "Compte introuvable");
+	// }
+	// return "comptes/compte_details";// meme vue comptes
+	// }
+
+	@RequestMapping(value = "/account", method = RequestMethod.GET)
+	public String consulter(Model model, Long codeCompte,
+			@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "4") int size) {
+
+		try {
+			model.addAttribute("codeCompte", codeCompte);
+
 			Compte cp = banqueMetier.consulterCompte(codeCompte).get();
-			
-            Page<Operation> pageOperations = banqueMetier.listOperation(codeCompte,page,size);
-            model.addAttribute("listOperations",pageOperations.getContent());
-			System.out.println((pageOperations.getContent()));
-            int[] pages = new int[pageOperations.getTotalPages()];//nombre de pages
-            model.addAttribute("pages",pages);
-            model.addAttribute("compte",cp);
-			System.out.println(cp.getSolde());
-			System.out.println(cp.getDateCreation());
-		}catch (Exception e){
-			model.addAttribute("exception","Compte introuvable");
-		}
-		return "comptes/compte_details";//meme vue comptes
-	}
-	@RequestMapping(value="/saveOperation" ,method = RequestMethod.POST )
-	    public String saveOperation(Model model ,  String typeOperation , Long codeCompte , double montant , Long codeCompte2){
-	      try{
-	          if(typeOperation.equals("VERS")){
-	        	  banqueMetier.verser(codeCompte,montant);
-	          }else if(typeOperation.equals("RETR")){
-	        	  banqueMetier.retirer(codeCompte,montant);
-	          }else if(typeOperation.equals("VIR")){
-	        	  banqueMetier.virement(codeCompte,codeCompte2,montant);
-	          }
-	      }catch (Exception e){
-	          model.addAttribute("error",e);
-	          return "redirect:/consulterCompte?codeCompte="+codeCompte+"&error="+e.getMessage();
-	      }
 
-	        return "redirect:/comptes/comptedetails/"+codeCompte;
-	    }
+			Page<Operation> pageOperations = banqueMetier.listOperation(codeCompte, page, size);
+			model.addAttribute("listOperations", pageOperations.getContent());
+			int[] pages = new int[pageOperations.getTotalPages()];// nombre de pages
+			model.addAttribute("pages", pages);
+			model.addAttribute("compte", cp);
+		} catch (Exception e) {
+			model.addAttribute("exception", "Compte introuvable");
+		}
+		return "comptes";// meme vue comptes
+	}
+
+	@RequestMapping(value = "/saveOperation", method = RequestMethod.POST)
+	public String saveOperation(Model model, String typeOperation, Long codeCompte, double montant, Long codeCompte2) {
+
+		System.out
+				.println("compte est: " + codeCompte + " to: " + codeCompte2 + " type operation est " + typeOperation);
+		try {
+			if (typeOperation.equals("VERS")) {
+				banqueMetier.verser(codeCompte, montant);
+			} else if (typeOperation.equals("RETR")) {
+				banqueMetier.retirer(codeCompte, montant);
+			} else if (typeOperation.equals("VIR")) {
+				banqueMetier.virement(codeCompte, codeCompte2, montant);
+			}
+		} catch (Exception e) {
+			model.addAttribute("error", e);
+			return "redirect:/account?codeCompte=" + codeCompte + "&error=" + e.getMessage();
+		}
+
+		return "redirect:/account?codeCompte=" + codeCompte;
+	}
 }
