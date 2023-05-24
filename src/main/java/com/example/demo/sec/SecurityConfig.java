@@ -40,5 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.headers(headers -> headers.frameOptions().disable());
 		http.formLogin(login -> login.loginPage("/login"));
+		http.csrf(csrf -> csrf.ignoringAntMatchers("/bar.xhtml"));
 	}
 }

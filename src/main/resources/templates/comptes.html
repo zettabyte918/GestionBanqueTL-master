@@ -40,7 +40,12 @@
                 Balance
               </dt>
               <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                <span th:text="${compte.solde}"></span> TND
+                <span class="bg-green-600 rounded-md px-2 py-0.5 text-gray-50">
+                  <span
+                    th:text="${#numbers.formatDecimal(compte.solde,0,3)}"
+                  ></span>
+                  TND
+                </span>
               </dd>
             </div>
           </dl>

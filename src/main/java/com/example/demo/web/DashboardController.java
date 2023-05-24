@@ -22,6 +22,12 @@ public class DashboardController {
         return "chart/chart.html";
     }
 
+    @GetMapping("/statistique")
+    public String getStats(Model model) {
+        // Add any necessary data to the model
+        return "chart/stats.html";
+    }
+
     @GetMapping("/page2")
     public String getPage2(Model model) {
         // Add any necessary data to the model

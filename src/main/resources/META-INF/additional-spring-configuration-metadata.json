@@ -1,0 +1,9 @@
+{"properties": [{
+  "name": "spring.security.enable_csrf",
+  "type": "java.lang.String",
+  "description": "A description for 'spring.security.enable_csrf'"
+}]}{"properties": [{
+  "name": "spring.security.enable_csrf",
+  "type": "java.lang.String",
+  "description": "A description for 'spring.security.enable_csrf'"
+}]}

@@ -1,84 +1,3 @@
-<!-- <html xmlns="http://www.thymeleaf.org">
-
-<head>
-<title>list of employees</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-600 container mx-auto">
-	<th:block th:include="fragments/navbar :: header"></th:block>
-	<br>
-	</br>
-	<a th:href="@{/comptes/addEpargne}"
-		class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add
-		compte Epargne</a>
-	<a th:href="@{/comptes/addCourant}"
-		class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add
-		compte courant</a>
-	<br></br>
-	<div class="   overflow-x-auto shadow-md sm:rounded-lg">
-		</button>	
-		<table
-			class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-			<thead
-				class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-				<tr>
-					<th scope="col" class="px-6 py-3">Code compte</th>
-					<th scope="col" class="px-6 py-3">Nom de client</th>
-					<th scope="col" class="px-6 py-3">type compte</th>
-					<th scope="col" class="px-6 py-3">date creation</th>
-					<th scope="col" class="px-6 py-3">Solde</th>
-					<th scope="col" class="px-6 py-3">taux</th>
-					<th scope="col" class="px-6 py-3">Action</th>
-				</tr>
-			</thead>
-			
-			<tbody>
-				<tr th:each="comptes:${comptes}"
-					class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-					<th scope="row" th:text="${comptes.codeCompte}"
-						class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-					</th>
-					<td th:text="${comptes.client.nom}" class="px-6 py-4"></td>
-					<td class="px-6 py-4"><span 
-						th:if="${comptes instanceof T(com.example.demo.entities.CompteCourant)}">Compte
-							Courant</span> <span
-						th:if="${comptes instanceof T(com.example.demo.entities.CompteEpargne)}">Compte
-							Epargne</span></td>
-					<td th:text="${comptes.dateCreation}" class="px-6 py-4"></td>
-					<td th:text="${comptes.solde}" class="px-6 py-	4"></td>
-					<td th:text="${comptes.solde}" class="px-6 py-4"></td>
-					<td class="px-6 py-4">
-					<a
-						class="font-medium text-green-600 dark:text-green-500 hover:underline">Details</a>
-					<a  th:href="@{/comptes/comptedetails/{id} (id=${comptes.codeCompte})}"
-						class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-
-						<a
-						class="font-medium text-red-600 dark:text-red-500 hover:underline" th:href="@{/comptes/delete/{id} (id=${comptes.codeCompte})}" onclick="return confirmDelete()"  >delete</a>
-					</td>
-
-					 <a
-							th:href="@{/showupdate(employeeid=${employee.id})}"
-							class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-							<a th:href="@{/delete(employeeid=${employee.id})}"
-						>Delete</a>
-
-				</tr>
-			</tbody>
-		</table>
-	</div>
-<script>
-  function confirmDelete() {
-    return confirm("Are you sure you want to delete this account?");
-  }
-</script>
-
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html
   xmlns:th="http://www.thymeleaf.org"
@@ -113,6 +32,12 @@
             </a>
           </div>
         </div>
+        <span
+          class="mt-4 flex items-center w-62 justify-center text-xl items-center font-medium text-gray-50 bg-indigo-600 px-2 py0.5 rounded-md block"
+          >Balance: <span th:text="${totale}" class="ml-2"></span>
+          <span class="ml-2">TND</span></span
+        >
+
         <!-- Success message -->
         <div th:if="${success}">
           <!-- This example requires Tailwind CSS v2.0+ -->
@@ -229,8 +154,9 @@
                           >Saving account</span
                         >
                       </td>
+
                       <td
-                        th:text="${comptes.dateCreation}"
+                        th:text="${#dates.format(comptes.dateCreation, 'dd-MM-yyyy')}"
                         class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                       ></td>
                       <td
@@ -239,11 +165,14 @@
                         <span
                           class="bg-black px-2 py-0.5 text-white font-medium rounded-md"
                         >
-                          <span th:text="${comptes.solde}"></span> TND</span
+                          <span
+                            th:text="${#numbers.formatDecimal(comptes.solde,0,3)}"
+                          ></span>
+                          TND</span
                         >
                       </td>
                       <td
-                        th:text="${comptes.solde}"
+                        th:text="${#numbers.formatDecimal(comptes.solde,0,3)}"
                         class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                       ></td>
                       <td

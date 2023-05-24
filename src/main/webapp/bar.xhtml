@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+  <h:head> </h:head>
+
+  <h:body style="margin-left: 40px; margin-top: 20px">
+    <h:form>
+      <h:inputText value="#{lineChartBean.year}" />
+      <h:inputText value="#{lineChartBean.month}" />
+
+      <h:commandButton
+        value="Generate Chart"
+        action="#{lineChartBean.createBarModel}"
+      />
+    </h:form>
+
+    <p:chart
+      type="bar"
+      model="#{lineChartBean.barModel}"
+      style="height: 400px; width: 600px"
+    />
+  </h:body>
+</html>

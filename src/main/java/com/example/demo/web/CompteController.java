@@ -24,64 +24,65 @@ import com.example.demo.metier.BanqueMetierImpl;
 @Controller
 @RequestMapping("/comptes")
 public class CompteController {
-    
-    @Autowired
-    private CompteRepository compteRepo;
-    @Autowired
-    private ClientRepository clientRepo;
-    @Autowired
-    private BanqueMetierImpl banqueMetier;
-    
-    @GetMapping("")
-    public String getAllComptes(Model model) {
-        List<Compte> comptes = this.compteRepo.findAll();
-        model.addAttribute("comptes", comptes);
-        return "comptes/list_comptes";
-    }
 
-  /*@GetMapping("/comptedetails/{id}")
-    public String getComptess(@PathVariable Long id, Model model){
-        model.addAttribute("operations",banqueMetier.consulterCompte(id));
-        System.out.println(( banqueMetier.consulterCompte(id)));
-        return "comptes/compte_details" ; 
-    }*/
+  @Autowired
+  private CompteRepository compteRepo;
+  @Autowired
+  private ClientRepository clientRepo;
+  @Autowired
+  private BanqueMetierImpl banqueMetier;
 
-    @GetMapping("/addCourant")
-    public String addCorantAccount(Model model) {
-        model.addAttribute("compte", new CompteCourant());
-        model.addAttribute("clients",clientRepo.findAll());
-        return "comptes/add_courant";
+  @GetMapping("")
+  public String getAllComptes(Model model) {
+    List<Compte> comptes = this.compteRepo.findAll();
+    double sum = 0;
+    for (Compte compte : comptes) {
+      sum += compte.getSolde();
     }
-    
-    @GetMapping("/addEpargne")
-    public String addEpargneAccount(Model model) {
-        model.addAttribute("compte", new CompteEpargne());
-        model.addAttribute("clients",clientRepo.findAll());
-        return "comptes/add_epargne";
-    }
-    
-    @PostMapping("/savecompteepargne")
-    public String saveCompteEpargne(@ModelAttribute("compte") CompteEpargne compte) {
-    	compteRepo.save(compte);
-      return "redirect:/comptes/";
-    }
-    
-    @PostMapping("/savecomptecourant")
-    public String saveCompteCourant(@ModelAttribute("compte") CompteCourant compte) {
-    	compteRepo.save(compte);
-      return "redirect:/comptes/";
-    }
+    model.addAttribute("comptes", comptes);
+    model.addAttribute("totale", sum);
+    return "comptes/list_comptes";
+  }
 
-    @GetMapping("/delete/{id}")
-    public String deleteCompte(@PathVariable("id") Long id){
-        compteRepo.deleteById(id); 
-        return "redirect:/comptes/";
-    }
-    
+  /*
+   * @GetMapping("/comptedetails/{id}")
+   * public String getComptess(@PathVariable Long id, Model model){
+   * model.addAttribute("operations",banqueMetier.consulterCompte(id));
+   * System.out.println(( banqueMetier.consulterCompte(id)));
+   * return "comptes/compte_details" ;
+   * }
+   */
+
+  @GetMapping("/addCourant")
+  public String addCorantAccount(Model model) {
+    model.addAttribute("compte", new CompteCourant());
+    model.addAttribute("clients", clientRepo.findAll());
+    return "comptes/add_courant";
+  }
+
+  @GetMapping("/addEpargne")
+  public String addEpargneAccount(Model model) {
+    model.addAttribute("compte", new CompteEpargne());
+    model.addAttribute("clients", clientRepo.findAll());
+    return "comptes/add_epargne";
+  }
+
+  @PostMapping("/savecompteepargne")
+  public String saveCompteEpargne(@ModelAttribute("compte") CompteEpargne compte) {
+    compteRepo.save(compte);
+    return "redirect:/comptes/";
+  }
+
+  @PostMapping("/savecomptecourant")
+  public String saveCompteCourant(@ModelAttribute("compte") CompteCourant compte) {
+    compteRepo.save(compte);
+    return "redirect:/comptes/";
+  }
+
+  @GetMapping("/delete/{id}")
+  public String deleteCompte(@PathVariable("id") Long id) {
+    compteRepo.deleteById(id);
+    return "redirect:/comptes/";
+  }
+
 }
-
-
-	
-	
-
-

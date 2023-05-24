@@ -16,10 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="TYPE_CPTE",
-discriminatorType=DiscriminatorType.STRING,length=2)
-public abstract class Compte implements Serializable{
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE_CPTE", discriminatorType = DiscriminatorType.STRING, length = 2)
+public abstract class Compte implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private Long codeCompte;
@@ -27,22 +26,22 @@ public abstract class Compte implements Serializable{
 	private double solde;
 
 	@ManyToOne
-	@JoinColumn(name="CODE_CLI")
+	@JoinColumn(name = "CODE_CLI")
 	private Client client;
-	@OneToMany(mappedBy="compte",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "compte", fetch = FetchType.LAZY)
 	private Collection<Operation> operations;
-	
+
 	public Compte() {
 		super();
-		this.dateCreation = new Date(); 
+		this.dateCreation = new Date();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Compte(Long codeCompte, Date dateCreation, double solde, Client client) {
 		super();
 		this.dateCreation = new Date();
 		this.codeCompte = codeCompte;
-		//this.dateCreation = dateCreation;
+		// this.dateCreation = dateCreation;
 		this.solde = solde;
 		this.client = client;
 	}
@@ -86,7 +85,5 @@ public abstract class Compte implements Serializable{
 	public void setOperations(Collection<Operation> operations) {
 		this.operations = operations;
 	}
-	
-	
-	
+
 }
