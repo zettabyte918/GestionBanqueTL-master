@@ -14,7 +14,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
 	@Query("select o from Operation o where o.compte.codeCompte=:x order by o.dateOperation desc ")
 	public Page<Operation> listOperatiion(@Param("x") Long codeCpte, Pageable pageable);
 
-	@Query("SELECT o FROM Operation o WHERE o.compte.codeCompte = :x AND YEAR(o.dateOperation) = :year AND MONTH(o.dateOperation) = :month ORDER BY o.dateOperation DESC")
-	public List<Operation> listOperationbydate(@Param("x") Long codeCpte, @Param("year") int year,
+	@Query("SELECT o FROM Operation o WHERE YEAR(o.dateOperation) = :year AND MONTH(o.dateOperation) = :month ORDER BY o.dateOperation DESC")
+	public List<Operation> listOperationbydate(@Param("year") int year,
 			@Param("month") int month);
 }

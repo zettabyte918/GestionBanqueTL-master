@@ -91,7 +91,7 @@ public class LineChartBean {
     private BarChartModel initBarModel() {
         BarChartModel model = new BarChartModel();
         Map<Integer, Double> dailyCreditMap = new TreeMap<>();
-        List<Operation> operationsbydate = operationrepo.listOperationbydate(2201L, year, month);
+        List<Operation> operationsbydate = operationrepo.listOperationbydate(year, month);
 
         // Calculate the total credit for each day
         for (Operation operation : operationsbydate) {
