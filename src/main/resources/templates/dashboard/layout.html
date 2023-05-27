@@ -256,6 +256,27 @@
         </main>
       </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $("#lc").DataTable({
+          bDestroy: true,
+          responsive: true,
+          paging: true,
+          lengthChange: true,
+          aLengthMenu: [7, 14, 21, -1],
+
+          searching: true,
+          ordering: true,
+          info: true,
+          autoWidth: false,
+        });
+      });
+    </script>
     <script>
       function dropdown() {
         var dropdown = document.getElementById("profile-dropdown");
