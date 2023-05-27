@@ -38,6 +38,35 @@ public class LineChartBean {
 
     private int year;
     private int month;
+    private Date inputDate;
+
+    public Date getinputDate() {
+        return inputDate;
+    }
+
+    public void setinputDate(Date inputDate) {
+        this.inputDate = inputDate;
+    }
+
+    public int getInputYear() {
+        if (inputDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(inputDate);
+            return calendar.get(Calendar.YEAR);
+        } else {
+            return 0; // Return a default value or handle the null case appropriately
+        }
+    }
+
+    public int getInputMonth() {
+        if (inputDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(inputDate);
+            return calendar.get(Calendar.MONTH) + 1; // Months in Calendar class are zero-based
+        } else {
+            return 0; // Return a default value or handle the null case appropriately
+        }
+    }
 
     @Autowired
     private OperationRepository operationrepo;
@@ -89,6 +118,11 @@ public class LineChartBean {
     }
 
     private BarChartModel initBarModel() {
+        int year = getInputYear();
+        int month = getInputMonth();
+
+        System.out.println("the input date is: " + year + ":" + month);
+
         BarChartModel model = new BarChartModel();
         Map<Integer, Double> dailyCreditMap = new TreeMap<>();
         List<Operation> operationsbydate = operationrepo.listOperationbydate(year, month);
