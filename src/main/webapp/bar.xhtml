@@ -13,6 +13,13 @@
       rel="stylesheet"
       href="https://tailwindcss-forms.vercel.app/dist/tailwind.css"
     />
+    <style>
+      @media print {
+        .noprint {
+          display: none;
+        }
+      }
+    </style>
   </h:head>
 
   <h:body style="margin-left: 40px; margin-top: 20px">
@@ -41,11 +48,18 @@
           </div>
         </div>
         <h:commandButton
-          t:class="inline-flex mr-10 cursor-pointer mt-6 items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          t:class="print:hidden inline-flex mr-10 cursor-pointer mt-6 items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           value="Generate Chart"
           action="#{lineChartBean.createBarModel}"
         />
       </div>
+      <button
+        class="print:hidden inline-flex mr-10 cursor-pointer mt-6 items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        type="button"
+        onclick="imprimer()"
+      >
+        Print
+      </button>
     </h:form>
 
     <p:chart
@@ -53,5 +67,10 @@
       model="#{lineChartBean.barModel}"
       style="height: 400px; width: 600px"
     />
+    <script>
+      function imprimer() {
+        window.print();
+      }
+    </script>
   </h:body>
 </html>
